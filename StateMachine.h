@@ -19,7 +19,8 @@ public:
     void updateState(
         double temperature,
         double pressure,
-        double motion
+        double motion,
+        double battery
     );
 
     SystemState getState() const;

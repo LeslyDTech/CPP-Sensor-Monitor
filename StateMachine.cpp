@@ -7,7 +7,8 @@ StateMachine::StateMachine()
 void StateMachine::updateState(
     double temperature,
     double pressure,
-    double motion
+    double motion,
+    double battery
 ) {
     // Critical condition
     if (temperature >= 105.0 || pressure >= 15.8) {
@@ -17,7 +18,8 @@ void StateMachine::updateState(
     // Warning condition
     else if (temperature >= 95.0 ||
              pressure >= 15.5 ||
-             motion == 1) {
+             motion == 1    ||
+             battery <= 20.0) {
         currentState = SystemState::WARNING;
     }
 

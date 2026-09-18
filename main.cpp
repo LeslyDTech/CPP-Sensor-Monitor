@@ -33,6 +33,7 @@ int main() {
     TemperatureSensor temperatureSensor;
     PressureSensor pressureSensor;
     MotionSensor motionSensor;
+    BatterySensor batterySensor;
 
     // Create the state machine
     StateMachine stateMachine;
@@ -53,11 +54,17 @@ int main() {
         std::ref(motionSensor)
     );
 
+    std::thread batteryThread(
+        runSensor,
+        std::ref(batterySensor)
+    );
+
     // Main monitoring loop
     for (int i = 0; i < 10; i++) {
         double temperature;
         double pressure;
         double motion;
+        double battery;
 
         {
             // Protect shared sensor data
@@ -66,13 +73,15 @@ int main() {
             temperature = temperatureSensor.getValue();
             pressure = pressureSensor.getValue();
             motion = motionSensor.getValue();
+            battery = batterySensor.getValue();
         }
 
         // Update the system state
         stateMachine.updateState(
             temperature,
             pressure,
-            motion
+            motion,
+            battery
         );
 
         // Display sensor information
@@ -95,6 +104,10 @@ int main() {
                   << stateMachine.getStateName()
                   << "\n";
 
+        std::cout << "Battery Level:        "
+                  << battery
+                  << " %\n";
+
         // Display alerts
         if (stateMachine.getState() == SystemState::WARNING) {
             std::cout << "WARNING: Sensor threshold exceeded!\n";
@@ -111,6 +124,7 @@ int main() {
     temperatureThread.join();
     pressureThread.join();
     motionThread.join();
+    batteryThread.join();
 
     std::cout << "\n=====================================\n";
     std::cout << "Monitoring complete.\n";

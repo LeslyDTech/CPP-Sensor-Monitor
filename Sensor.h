@@ -41,4 +41,11 @@ public:
     void update() override;
 };
 
+// Battery sensor
+class BatterySensor : public Sensor {
+public:
+    BatterySensor();
+    void update() override;
+};
+
 #endif
