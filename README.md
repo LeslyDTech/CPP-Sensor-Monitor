@@ -1,6 +1,6 @@
 # C++ Sensor Monitoring System
 
-A beginner-friendly C++ simulation of an embedded-style sensor monitoring system.
+A C++ simulation of an embedded-style sensor monitoring system.
 
 ## Overview
 
